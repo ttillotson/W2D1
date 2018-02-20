@@ -1,5 +1,6 @@
 require_relative "piece"
 require_relative "start_pos"
+require_relative "null_piece"
 require "byebug"
 
 
@@ -13,7 +14,7 @@ class Board
 
   def initialize
     @grid = self.class.fresh_board
-
+    populate
   end
 
   def [](pos)
@@ -32,6 +33,8 @@ class Board
         pos = row, column
         if Moveable::STARTING_POS.include?(pos)
           self[pos] = Piece.new
+        else
+          self[pos] = NullPiece.new
         end
       end
     end

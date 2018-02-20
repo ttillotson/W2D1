@@ -77,14 +77,14 @@ class Cursor
 
   def handle_key(key)
     case key
-    when :return || :space
-      return @cursor_pos
-    when :left || :right || :up || :down
+    when :left, :right, :up, :down
       update_pos(MOVES[key])
+      nil
     when :ctrl_c
       Process.exit(0)
-    when :return || :space
-      selected = cursor_pos
+    when :return, :space
+      selected = cursor_pos.dup
+      return cursor_pos
     end
   end
 
@@ -92,16 +92,17 @@ class Cursor
 
   def update_pos(diff)
     cursor_pos.map!.with_index do |num, idx|
-      num + diff[idx]
+      num += diff[idx]
 
-      n -= 1 if n > 7
-      n += 1 if n < 0
+      num -= 1 if num > 7
+      num += 1 if num < 0
+      num
     end
 
     cursor_pos
   end
 
-  private
+
   attr_writer :selected
 
 end

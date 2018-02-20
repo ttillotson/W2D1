@@ -1,6 +1,7 @@
 require_relative 'board'
 require_relative 'cursor'
 require 'colorize'
+require "byebug"
 
 class Display
 
@@ -20,27 +21,42 @@ class Display
   end
 
   def render
-    board.each_index do |row|
-      board.each_index do |col|
+    all_rows = []
+    board.grid.each_index do |row|
+      new_row = []
+      board.grid.each_index do |col|
         pos = [row, col]
-        if (row + col).even?
-          board[pos].colorize(:light_black)
+        # byebug
+        if pos == cursor.cursor_pos
+          new_row << ("#{board[cursor.cursor_pos].piece}").colorize(color => :blue, background => :light_blue)
+        elsif pos == cursor.selected
+          new_row << ("#{board[cursor.selected].piece}").colorize(:red)
+        elsif (row + col).even?
+          new_row << ("#{board[pos].piece}").colorize(color => :black, background => :light_black)
         else
-          board[pos].colorize(:light_yellow)
+          new_row <<("#{board[pos].piece}").colorize(color => :yellow, background => :light_yellow)
         end
       end
+
+      all_rows << "\n" + new_row.join + "\n"
     end
-    board[cursor.cursor_pos].colorize(:lightred)
-    board[cursor.selected].colorize(:red)
+    # ("#{board[cursor.cursor_pos]}").colorize(:lightred)
+    # ("#{board[cursor.selected]}").colorize(:red) unless cursor.selected.nil?
+
+
+    print all_rows.join
   end
 
   def display
-    loop
-    render
-    cursor.get_input
+    loop do
+      render
+      cursor.get_input
+      system("clear")
+    end
   end
-
 end
 
-
-display
+if __FILE__ == $PROGRAM_NAME
+  display = Display.new(Board.new)
+  display.display
+end
