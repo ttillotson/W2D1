@@ -13,10 +13,7 @@ class Display
   end
 
   def cursor_square?(pos)
-    if cursor.cursor_pos == board[pos]
-      return true
-    end
-
+    return true if cursor.cursor_pos == board[pos]
     false
   end
 
@@ -26,23 +23,19 @@ class Display
       new_row = []
       board.grid.each_index do |col|
         pos = [row, col]
-        # byebug
         if pos == cursor.cursor_pos
-          new_row << ("#{board[cursor.cursor_pos].piece}").colorize(color => :blue, background => :light_blue)
+          new_row << ("#{board[cursor.cursor_pos].piece}").colorize(:color => :green, :background => :light_cyan)
         elsif pos == cursor.selected
           new_row << ("#{board[cursor.selected].piece}").colorize(:red)
         elsif (row + col).even?
-          new_row << ("#{board[pos].piece}").colorize(color => :black, background => :light_black)
+          new_row << ("#{board[pos].piece}").colorize(:color => :black, :background => :light_black)
         else
-          new_row <<("#{board[pos].piece}").colorize(color => :yellow, background => :light_yellow)
+          new_row <<("#{board[pos].piece}").colorize(:color => :yellow, :background => :light_yellow)
         end
       end
 
       all_rows << "\n" + new_row.join + "\n"
     end
-    # ("#{board[cursor.cursor_pos]}").colorize(:lightred)
-    # ("#{board[cursor.selected]}").colorize(:red) unless cursor.selected.nil?
-
 
     print all_rows.join
   end

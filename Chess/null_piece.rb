@@ -1,10 +1,11 @@
 require_relative "piece"
+require 'singleton'
 
 class NullPiece < Piece
-  # extend Singleton
+  include Singleton
 
   def initialize
-    @piece = :null_ 
+    @piece = :null_
   end
 
   def inspect

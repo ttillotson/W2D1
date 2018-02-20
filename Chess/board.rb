@@ -34,7 +34,7 @@ class Board
         if Moveable::STARTING_POS.include?(pos)
           self[pos] = Piece.new
         else
-          self[pos] = NullPiece.new
+          self[pos] = NullPiece.instance
         end
       end
     end

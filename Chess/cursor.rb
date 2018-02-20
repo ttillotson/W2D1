@@ -45,6 +45,7 @@ class Cursor
   end
 
   private
+  attr_writer :selected
 
   def read_char
     STDIN.echo = false # stops the console from printing return values
@@ -98,11 +99,8 @@ class Cursor
       num += 1 if num < 0
       num
     end
-
-    cursor_pos
   end
 
 
-  attr_writer :selected
 
 end
