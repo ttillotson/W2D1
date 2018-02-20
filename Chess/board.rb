@@ -5,7 +5,7 @@ require "byebug"
 
 class Board
   include Moveable
-  attr_accessor :grid
+  attr_reader :grid
 
   def self.fresh_board
     Array.new(8) { Array.new(8) }
@@ -17,13 +17,13 @@ class Board
   end
 
   def [](pos)
-    x, y = pos
-    grid[x][y]
+    row, col = pos
+    grid[row][col]
   end
 
   def []=(pos, value)
-    x, y = pos
-    grid[x][y] = value
+    row, col = pos
+    grid[row][col] = value
   end
 
   def populate
@@ -31,7 +31,7 @@ class Board
       @grid.each_index do |column|
         pos = row, column
         if Moveable::STARTING_POS.include?(pos)
-          @grid[row][column] = Piece.new
+          self[pos] = Piece.new
         end
       end
     end
@@ -39,11 +39,10 @@ class Board
 
 
   def move_piece(start_pos, end_pos)
-    raise MoveError if self[start_pos].nil?
-  end
-
-  def valid_move?(pos)
-    @grid[pos]
+    raise NoStartError if self[start_pos].nil?
+    raise MoveError unless self[start_pos].valid_move?(end_pos)
+    self[start_pos], self[end_pos] = self[end_pos], self[start_pos]
+    @grid
   end
 
 end

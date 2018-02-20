@@ -9,4 +9,8 @@ class Piece
   def inspect
     "Piece #{piece}"
   end
+
+  def valid_move?(pos)
+    return true
+  end
 end
