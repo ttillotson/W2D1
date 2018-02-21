@@ -24,13 +24,13 @@ class Display
       board.grid.each_index do |col|
         pos = [row, col]
         if pos == cursor.cursor_pos
-          new_row << ("#{board[cursor.cursor_pos].piece}").colorize(:color => :green, :background => :light_cyan)
+          new_row << ("#{board[cursor.cursor_pos].piece_emoji}").colorize(:color => :green, :background => :light_cyan)
         elsif pos == cursor.selected
-          new_row << ("#{board[cursor.selected].piece}").colorize(:red)
+          new_row << ("#{board[cursor.selected].piece_emoji}").colorize(:red)
         elsif (row + col).even?
-          new_row << ("#{board[pos].piece}").colorize(:color => :black, :background => :light_black)
+          new_row << ("#{board[pos].piece_emoji}").colorize(:color => :black, :background => :light_black)
         else
-          new_row <<("#{board[pos].piece}").colorize(:color => :yellow, :background => :light_yellow)
+          new_row <<("#{board[pos].piece_emoji}").colorize(:color => :yellow, :background => :light_yellow)
         end
       end
 

@@ -6,6 +6,8 @@ class NullPiece < Piece
 
   def initialize
     @piece = :null_
+    @piece_emoji = "     "
+
   end
 
   def inspect

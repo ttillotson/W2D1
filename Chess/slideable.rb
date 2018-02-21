@@ -16,11 +16,63 @@ module Slideable
     true
   end
 
-  def move_dir
-    self.piece
+  def moves
+    moves = []
+    move_dirs.each do |dir|
+      dx = dir[0]
+      dy = dir[1]
+      moves += grow_unblocked_moves_in_dir(dx, dy)
+    end
+
+    moves
   end
 
-  def move(move_dir, start_pos, end_pos)
-    if HORIZONTAL_DIR.include?(move_dir)
+  private
+
+  def move_dirs
+    return HORIZONTAL_DIRS if self.piece == :rook
+    return DIAGONAL_DIRS if self.piece == :bishop
+    return HORIZONTAL_DIRS + DIAGONAL_DIRS if self.piece == :queen
+  end
+
+  def grow_unblocked_moves_in_dir(dx, dy)
+    new_x = self.pos[0] + dx
+    new_y = self.pos[1] + dy
+    new_pos = [new_x, new_y]
+
+    moves = []
+    while true
+      if board[new_pos].is_a?(Piece) && board[new_pos].color != self.color
+        moves += new_pos
+        break
+      elsif board[new_pos].is_a?(Piece) && board[new_pos].color == self.color
+        break
+      elsif board[new_pos].nil?
+        break
+      else
+        moves += new_pos
+        new_pos[0] += dx
+        new_pos[1] += dy
+      end
+    end
+    #
+    #
+    #   if board[new_pos].is_a?(Piece) && board[new_pos].color != self.color
+    #     return new_pos
+    #   elsif board[new_pos].is_a?(Piece) && board[new_pos].color == self.color
+    #     return []
+    #   elsif !board.include?(new_pos)
+    #     return []
+    #   end
+    # end
+    #
+    #
+    #
+    # moves += new_pos + self.grow_unblocked_moves_in_dir(dx, dy)
+    #
+    # moves
+
+
+    moves
   end
 end

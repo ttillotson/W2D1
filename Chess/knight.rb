@@ -1,16 +1,13 @@
 require_relative "piece"
 
-class Bishop < Piece
+class Knight < Piece
 
   def initialize(color, board, pos)
-    @piece = :bishop
+    @piece = :knight
     @color = color
     @pos = pos
     @board = board
-    @piece_emoji = (color == :white ? "  ♗  " : "  ♝  ")
+    @piece_emoji = (color == :white ? "  ♘  " : "  ♞  ")
+
   end
-
-
-
-
 end
